@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """Logger module"""
-from typing import List, Tuple
+from mysql.connector.connection import MySQLConnection
+from typing import List, Tuple, Union
+from os import getenv
 import logging
 import re
 
@@ -25,6 +27,15 @@ def get_logger() -> logging.Logger:
     logger.propagate = False
     logger.addHandler(handler)
     return logger
+
+
+def get_db() -> MySQLConnection:
+    """Creates and returns a mysql database connector object"""
+    user: Union[str, None] = getenv('PERSONAL_DATA_DB_USERNAME')
+    pwd: Union[str, None] = getenv('PERSONAL_DATA_DB_PASSWORD')
+    db: Union[str, None] = getenv('PERSONAL_DATA_DB_NAME')
+    host: Union[str, None] = getenv('PERSONAL_DATA_DB_HOST')
+    return MySQLConnection(user=user, password=pwd, database=db, host=host)
 
 
 class RedactingFormatter(logging.Formatter):

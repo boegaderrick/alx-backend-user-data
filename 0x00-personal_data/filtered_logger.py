@@ -39,6 +39,23 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
         user=user, password=pwd, database=db, host=host)
 
 
+def main():
+    """Gets data from database and logs it"""
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute('SELECT * FROM users')
+    columns = [col[0] for col in cursor.description]
+
+    logger: logging.Logger = get_logger()
+    for row in cursor:
+        log: str = ''
+        for key, value in zip(columns, row):
+            log += f'{key}={value};'
+        logger.info(log)
+    cursor.close()
+    conn.close()
+
+
 class RedactingFormatter(logging.Formatter):
     """Redacting Formatter class"""
     REDACTION = "***"
@@ -60,3 +77,7 @@ class RedactingFormatter(logging.Formatter):
         record.msg = filter_datum(self.FIELDS, self.REDACTION,
                                   record.msg, self.SEPARATOR)
         return super().format(record)
+
+
+if __name__ == '__main__':
+    main()

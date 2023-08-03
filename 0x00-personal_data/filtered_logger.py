@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Logger module"""
+from mysql.connector.connection import MySQLConnection
 from typing import List, Tuple
 from os import getenv
 import logging
-import mysql.connector.connection
 import re
 
 PII_FIELDS: Tuple[str, ...] = ('name', 'email', 'phone', 'ssn', 'password')
@@ -29,14 +29,13 @@ def get_logger() -> logging.Logger:
     return logger
 
 
-def get_db() -> mysql.connector.connection.MySQLConnection:
+def get_db() -> MySQLConnection:
     """Creates and returns a mysql database connector object"""
     user: str = getenv('PERSONAL_DATA_DB_USERNAME', default='root')
     pwd: str = getenv('PERSONAL_DATA_DB_PASSWORD', default='')
     db: str = getenv('PERSONAL_DATA_DB_NAME', default='holberton')
     host: str = getenv('PERSONAL_DATA_DB_HOST', default='localhost')
-    return mysql.connector.connection.MySQLConnection(
-        user=user, password=pwd, database=db, host=host)
+    return MySQLConnection(user=user, password=pwd, database=db, host=host)
 
 
 def main():

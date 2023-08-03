@@ -29,8 +29,9 @@ class RedactingFormatter(logging.Formatter):
         """
             This method takes a log record, calls a function that redacts the
             values of keys specified in 'FIELDS' attribute then passes the new
-            redacted log to the parent class' format method. The parents method's
-            return value is then returned to the original caller.
+            redacted log to the parent class' format method. The return value
+            of parent method is then returned to the original caller.
         """
-        record.msg = filter_datum(self.FIELDS, self.REDACTION, record.msg, self.SEPARATOR)
+        record.msg = filter_datum(self.FIELDS, self.REDACTION,
+                                  record.msg, self.SEPARATOR)
         return super().format(record)

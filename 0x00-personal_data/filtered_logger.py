@@ -34,7 +34,7 @@ def get_db() -> MySQLConnection:
     user: str = getenv('PERSONAL_DATA_DB_USERNAME', default='root')
     pwd: str = getenv('PERSONAL_DATA_DB_PASSWORD', default='')
     db: str = getenv('PERSONAL_DATA_DB_NAME', default='holberton')
-    host: str = getenv('PERSONAL_DATA_DB_HOST'default='localhost')
+    host: str = getenv('PERSONAL_DATA_DB_HOST', default='localhost')
     return MySQLConnection(user=user, password=pwd, database=db, host=host)
 
 

@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 """Logger module"""
-from typing import List
+from typing import List, Tuple
 import logging
 import re
+
+PII_FIELDS: Tuple[str, ...] = ('name', 'email', 'phone', 'ssn', 'password')
 
 
 def filter_datum(fields: List[str], redaction: str,
@@ -12,6 +14,16 @@ def filter_datum(fields: List[str], redaction: str,
         message = re.sub(f'{i}.*?{separator}',
                          f'{i}={redaction}{separator}', message)
     return message
+
+
+def get_logger() -> logging.Logger:
+    """This method creates and returns a Logger instance"""
+    handler = logging.StreamHandler()
+    handler.setFormatter(RedactingFormatter(list(PII_FIELDS)))
+    logger = logging.Logger('user_data', logging.INFO)
+    logger.propagate = False
+    logger.addHandler(handler)
+    return logger
 
 
 class RedactingFormatter(logging.Formatter):

@@ -18,11 +18,11 @@ def filter_datum(fields: List[str], redaction: str,
 
 def get_logger() -> logging.Logger:
     """This method creates and returns a Logger instance"""
-    handler = logging.StreamHandler()
-    handler.setFormatter(RedactingFormatter(list(PII_FIELDS)))
+    # handler = logging.StreamHandler()
+    # handler.setFormatter(RedactingFormatter(list(PII_FIELDS)))
     logger = logging.Logger('user_data', logging.INFO)
     logger.propagate = False
-    logger.addHandler(handler)
+    # logger.addHandler(handler)
     return logger
 
 

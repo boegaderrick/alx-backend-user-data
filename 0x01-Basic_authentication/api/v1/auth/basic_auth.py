@@ -34,7 +34,7 @@ class BasicAuth(Auth):
         try:
             ret = base64.b64decode(base64_authorization_header)
             return ret.decode()
-        except binascii.Error:
+        except (binascii.Error, Exception):
             return None
 
     def extract_user_credentials(
@@ -66,3 +66,28 @@ class BasicAuth(Auth):
                 return user
 
         return None
+
+    def current_user(self, request=None) -> TypeVar('User'):
+        """This method retrieves the current user"""
+        if request is None:
+            return None
+
+        header: str = self.authorization_header(request)
+        if header is None:
+            return None
+
+        creds_bs64: str = self.extract_base64_authorization_header(header)
+        if creds_bs64 is None:
+            return None
+
+        creds_str: str = self.decode_base64_authorization_header(creds_bs64)
+        if creds_str is None:
+            return None
+
+        creds: Tuple(str, str) = self.extract_user_credentials(creds_str)
+        if any(cred is None for cred in creds):
+            return None
+
+        user: TypeVar('User') = self.user_object_from_credentials(*creds)
+
+        return user

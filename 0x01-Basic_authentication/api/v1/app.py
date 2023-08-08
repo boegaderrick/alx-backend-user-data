@@ -33,7 +33,7 @@ def before_request():
         if auth.require_auth(request.path, excluded_paths):
             if not auth.authorization_header(request.headers):
                 abort(401)
-            if not auth.current_user(request.remote_user):
+            if not auth.current_user(request.headers):
                 abort(403)
 
 

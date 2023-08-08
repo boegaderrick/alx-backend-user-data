@@ -10,7 +10,9 @@ class Auth:
         """This method checks if 'path' is in 'excluded_paths'"""
         if not path or not excluded_paths or len(excluded_paths) == 0:
             return True
-        return not any(i.startswith(path.rstrip('/')) for i in excluded_paths)
+        return not any(
+            i.startswith(path.rstrip('/')) or path.startswith(i.rstrip('*'))
+            for i in excluded_paths)
 
     def authorization_header(self, request=None) -> str:
         """Authorization method"""

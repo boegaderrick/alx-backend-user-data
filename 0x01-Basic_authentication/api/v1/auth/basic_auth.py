@@ -57,7 +57,7 @@ class BasicAuth(Auth):
         if user_pwd is None or type(user_pwd) is not str:
             return None
 
-        users: List[TypeVar('User')] = User.search({'email': user_email,})
+        users: List[TypeVar('User')] = User.search({'email': user_email})
         if len(users) < 1:
             return None
 
@@ -66,27 +66,3 @@ class BasicAuth(Auth):
                 return user
 
         return None
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

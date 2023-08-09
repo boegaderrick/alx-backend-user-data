@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """This module contains the Auth class"""
 from flask import request
+from os import getenv
 from typing import List, TypeVar
 
 
@@ -23,3 +24,9 @@ class Auth:
     def current_user(self, request=None) -> TypeVar('User'):
         """Current user method"""
         return None
+
+    def session_cookie(self, request=None):
+        """Gets a cookie value from the request object and returns it"""
+        if request is None:
+            return None
+        return request.cookies.get(getenv('SESSION_NAME'))

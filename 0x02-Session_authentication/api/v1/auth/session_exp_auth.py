@@ -9,7 +9,7 @@ from typing import TypeVar
 class SessionExpAuth(SessionAuth):
     """Class definition"""
     def __init__(self):
-        """SessionExpAuth instantation"""
+        """SessionExpAuth instantiation"""
         try:
             self.session_duration = int(getenv('SESSION_DURATION'))
         except (ValueError, TypeError):
@@ -31,6 +31,8 @@ class SessionExpAuth(SessionAuth):
     def user_id_for_session_id(self, session_id=None):
         """This method return a user_id"""
         if session_id is None:
+            return None
+        if self.user_id_by_session_id.get(session_id) is None:
             return None
         session_dictionary: Dict = self.user_id_by_session_id.get(
             session_id)['session dictionary']

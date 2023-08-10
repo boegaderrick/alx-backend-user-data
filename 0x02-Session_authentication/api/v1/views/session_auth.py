@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""This module contains the login route"""
+"""This module contains the login and logout routes"""
 from api.v1.views import app_views
 from flask import jsonify, make_response, request
 from models.user import User
@@ -34,3 +34,13 @@ def login():
             return response
 
     return make_response(jsonify({'error': 'wrong password'}), 401)
+
+
+@app_views.route(
+    '/auth_session/logout', methods=['DELETE'], strict_slashes=False)
+def logout():
+    """Logout function definition"""
+    from api.v1.app import auth
+    if not auth.destroy_session(request):
+        abort(404)
+    return make_response(jsonify({}), 200)

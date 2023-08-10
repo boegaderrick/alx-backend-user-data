@@ -22,7 +22,8 @@ def login():
     except (AttributeError, Exception):
         users = []
     if len(users) == 0:
-        return make_response(jsonify({'error': 'no user found for this email'}), 404)
+        return make_response(
+            jsonify({'error': 'no user found for this email'}), 404)
 
     for user in users:
         if user.is_valid_password(pwd):

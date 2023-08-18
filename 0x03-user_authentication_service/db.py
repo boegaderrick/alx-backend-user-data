@@ -32,21 +32,21 @@ class DB:
             self.__session = DBSession()
         return self.__session
 
-    def add_user(self, email: str, hashed_password: str) -> TypeVar('User'):
+    def add_user(self, email: str, hashed_password: str) -> User:
         """This method creates and stores a User object"""
         user = User(email=email, hashed_password=hashed_password)
         self._session.add(user)
         self._session.commit()
         return user
 
-    def find_user_by(self, **kwargs: Dict) -> TypeVar('User'):
+    def find_user_by(self, **kwargs: Dict) -> User:
         """This methods finds a User object in storage"""
         user = self._session.query(User).filter_by(**kwargs).first()
         if user is None:
             raise NoResultFound
         return user
 
-    def update_user(self, user_id: int, **kwargs: Dict) -> None:
+    def update_user(self, user_id: int, **kwargs) -> None:
         """This method updates a User object"""
         try:
             user = self.find_user_by(id=user_id)

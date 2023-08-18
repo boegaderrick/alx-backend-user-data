@@ -15,6 +15,7 @@ def home():
 
 @app.route('/users', methods=['POST'], strict_slashes=False)
 def users():
+    """This function registers a user"""
     email = request.form.get('email')
     password = request.form.get('password')
     try:
@@ -85,7 +86,7 @@ def update_password():
         abort(403)
 
     return make_response(
-        jsonify({'email': email, 'message': 'password updated'}), 200)
+        jsonify({'email': email, 'message': 'Password updated'}), 200)
 
 
 if __name__ == '__main__':

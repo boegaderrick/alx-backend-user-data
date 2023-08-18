@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """This module contains a simple flask app"""
 from auth import Auth
-from flask import abort, Flask, jsonify, make_response, request
+from flask import abort, Flask, jsonify, make_response, redirect, request
 
 app = Flask(__name__)
 AUTH = Auth()
@@ -48,7 +48,7 @@ def logout():
     if user is None:
         abort(403)
     AUTH.destroy_session(user.id)
-    return home()
+    return redirect('http://localhost:5000/', code=302)
 
 
 @app.route('/profile', methods=['GET'], strict_slashes=False)

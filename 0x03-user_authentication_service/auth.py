@@ -3,6 +3,7 @@
 from db import DB
 from sqlalchemy.orm.exc import NoResultFound
 from typing import TypeVar, Union
+from user import User
 from uuid import uuid4
 import bcrypt
 
